@@ -1,0 +1,9 @@
+rock_manifest = {
+   ["loveconsole-0.1.2-2.rockspec"] = "8cdf0d76ca0d817436ac215105360e1a",
+   lua = {
+      loveconsole = {
+         ["colors.lua"] = "872d0488f893edaf479af4a65eaae2a2",
+         ["console.lua"] = "d99104d02daeda66692bc1db6fbb0bd2"
+      }
+   }
+}

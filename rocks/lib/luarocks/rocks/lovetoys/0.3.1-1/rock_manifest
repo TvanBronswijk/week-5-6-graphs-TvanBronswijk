@@ -1,0 +1,29 @@
+rock_manifest = {
+   doc = {
+      ["CHANGELOG.md"] = "5d57473215df006c1a960730ccd7a84c",
+      ["LICENSE.md"] = "ccac638f697f418097ffbe60baeef177",
+      ["README.md"] = "aaa10c8eddd02851a2ce107ce6b895e9"
+   },
+   ["lovetoys-0.3.1-1.rockspec"] = "0de015f359b1f7e7c54b35796b1fac97",
+   lua = {
+      lovetoys = {
+         lib = {
+            ["middleclass.lua"] = "82beb771739fe28dc8eb297920369053"
+         },
+         ["lovetoys.lua"] = "a16ec94ee835a4423957ff788bd586fb",
+         src = {
+            ["Component.lua"] = "60919520e4e5bdf93dc9d9fba0197ea5",
+            ["Engine.lua"] = "4abea988a937a47f6df94a6d3aa9a8f2",
+            ["Entity.lua"] = "aa681fe382784ee707807fd16eb75dd9",
+            ["EventManager.lua"] = "6f7b6f6e0cc180a51f01b2f47d16704a",
+            ["System.lua"] = "a544d54de40af8a1e19dee56f1b47afc",
+            events = {
+               ["ComponentAdded.lua"] = "d2508920bf3ac3e5a2cbe8c7983e80e4",
+               ["ComponentRemoved.lua"] = "ccb05859c8e7ab2e65f802e2683b182a"
+            },
+            ["namespace.lua"] = "f397df655598796f6c6bc35a98faec0c",
+            ["util.lua"] = "40f6a51a4a7f7abbc4d6d6282c0e6a26"
+         }
+      }
+   }
+}
