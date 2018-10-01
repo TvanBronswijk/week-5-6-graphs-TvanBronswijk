@@ -1,3 +1,4 @@
+--Rock libraries
 console = require 'loveconsole.console'
 console:initialize({
 	name = "main",
@@ -9,15 +10,18 @@ console:initialize({
 })
 colors = require 'loveconsole.colors'
 class = require 'middleclass'
-lovetoys = require 'lovetoys.lovetoys'
-lovetoys.initialize({
-	debug = true,
-	globals = true
-})
+--utility functions
 util = require 'lib.util'
+--utility classes
+Queue = require 'lib.queue'
 
+--managers
 local keys = require 'src.managers.keys'
-local game = require 'src.game'
+
+--classes
+Graph = require 'src.graph.graph'
+Vertice = require 'src.graph.vertice'
+Edge = require 'src.graph.edge'
 
 function love.run()
     if love.math then
@@ -60,11 +64,22 @@ end
 
 function love.load()
 	love.keyboard.setKeyRepeat(true)
+	graph = Graph:new(16, 8)
+	distance = graph:distance_to(graph.start.x, graph.start.y, graph.exit)
 end
 
-
 function love.draw()
-	console:print("Hello World!", 2, 2, colors.white, colors.black)
+	console:print("S = Room: Startpunt", 2, 2, colors.white, colors.black)
+	console:print("E = Room: Eindpunt", 2, 3, colors.white, colors.black)
+	console:print("X = Room: Niet Bezocht", 2, 4, colors.white, colors.black)
+	console:print("* = Room: Bezocht", 2, 5, colors.white, colors.black)
+	console:print("~ = Hallway: Ingestort", 2, 6, colors.white, colors.black)
+	console:print("# = Hallway: Level Tegenstander", 2, 7, colors.white, colors.black)
+
+	graph:draw(4, 8)
+
+	console:print("Acties: Talisman, Handgranaat, Kompas", 2, 45, colors.white, colors.black)
+	console:print("Distance: " .. tostring(distance), 2, 46)
 end
 
 function love.keypressed(key)
