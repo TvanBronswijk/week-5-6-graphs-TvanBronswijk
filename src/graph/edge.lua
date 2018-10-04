@@ -15,10 +15,22 @@ function Edge:horizontal()
     return self.left.y == self.right.y
 end
 
+function Edge:destroy()
+    self.accessible = false
+    self.left.neighbours[table.key(self.left.neighbours, self.right)] = nil
+    self.right.neighbours[table.key(self.right.neighbours, self.left)] = nil
+end
+
 function Edge:draw(x, y)
-    console:print(tostring(self.weight), 
-        x + math.floor((self.left.x*4 + self.right.x*4) / 2), 
-        y + math.floor((self.left.y*4 + self.right.y*4) / 2))
+    if self.accessible then 
+        console:print(tostring(self.weight), 
+            x + math.floor((self.left.x*4 + self.right.x*4) / 2), 
+            y + math.floor((self.left.y*4 + self.right.y*4) / 2))
+    else
+        console:print('~', 
+            x + math.floor((self.left.x*4 + self.right.x*4) / 2), 
+            y + math.floor((self.left.y*4 + self.right.y*4) / 2))
+    end
 end
 
 return Edge

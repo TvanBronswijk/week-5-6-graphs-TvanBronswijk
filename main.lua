@@ -64,8 +64,12 @@ end
 
 function love.load()
 	love.keyboard.setKeyRepeat(true)
-	graph = Graph:new(16, 8)
+	generate_graph()
+	player = {x = graph.start.x, y = graph.start.y}
 	distance = graph:distance_to(graph.start.x, graph.start.y, graph.exit)
+	dijkstra_distance = graph:pathfinding(player.x, player.y, graph.exit)
+	log = "Acties: Talisman, Handgranaat, Kompas"
+
 end
 
 function love.draw()
@@ -77,15 +81,24 @@ function love.draw()
 	console:print("# = Hallway: Level Tegenstander", 2, 7, colors.white, colors.black)
 
 	graph:draw(4, 8)
+	console:print(" ", 4+player.x*4, 8+player.y*4, colors.white, {1.0, 0.0, 0.0, 0.4})
 
-	console:print("Acties: Talisman, Handgranaat, Kompas", 2, 45, colors.white, colors.black)
+	console:print(log, 2, 45, colors.white, colors.black)
 	console:print("Distance: " .. tostring(distance), 2, 46)
+	console:print("Weighted distance: " .. tostring(dijkstra_distance), 2, 47)
 end
 
 function love.keypressed(key)
-	if keys:handle(key) then
+	if keys.handle(key) then
+		graph:refresh()
+		distance = graph:distance_to(player.x, player.y, graph.exit)
+		dijkstra_distance = graph:pathfinding(player.x, player.y, graph.exit)
 		console:flush()
 	end
+end
+
+function generate_graph()
+	graph = Graph:new(15, 8)
 end
 
 function console:flush()
