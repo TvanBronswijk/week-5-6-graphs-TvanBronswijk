@@ -5,6 +5,7 @@ function Edge:initialize(weight, accessible)
     self.accessible = accessible
     self.left = nil
     self.right = nil
+    self.color = colors.black
 end
 
 function Edge:vertical()
@@ -39,11 +40,15 @@ function Edge:draw(x, y)
     if self.accessible then 
         console:print(tostring(self.weight), 
             x + math.floor((self.left.x*4 + self.right.x*4) / 2), 
-            y + math.floor((self.left.y*4 + self.right.y*4) / 2))
+            y + math.floor((self.left.y*4 + self.right.y*4) / 2),
+            colors.white,
+            self.color)
     else
         console:print('~', 
             x + math.floor((self.left.x*4 + self.right.x*4) / 2), 
-            y + math.floor((self.left.y*4 + self.right.y*4) / 2))
+            y + math.floor((self.left.y*4 + self.right.y*4) / 2),
+            colors.white,
+            self.color)
     end
 end
 

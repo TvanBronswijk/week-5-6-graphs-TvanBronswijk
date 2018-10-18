@@ -14,6 +14,12 @@ function base_handle(key)
 	elseif key == "g" then
 		log = "up, down, left, right?"
 		keys.handle = grenade_handle
+	elseif key == "s" then
+		if graph.draw_mode == 2 then
+			graph.draw_mode = 0
+		else
+			graph.draw_mode = graph.draw_mode + 1
+		end
 	else return false 
 	end
 	return true

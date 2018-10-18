@@ -33,6 +33,7 @@ function Graph:initialize(width, height)
     self.exit = self:coord(x, y)
     self.exit.id = 'E'
 
+    self.draw_mode = 0
     self.msp = self:min_spanning_tree()
 end
 
@@ -53,8 +54,11 @@ function Graph:distance_to(x, y, vertice)
     local visited = {}
     local to_visit = Queue:new() 
     local paths = {}
+    paths.parent = self
     function paths:count(node)
-        node.color = colors.red
+        if self.parent.draw_mode == 1 then
+            node.color = colors.dark_red
+        end
         if self[node] == nil then
             return 0
         end
@@ -66,6 +70,9 @@ function Graph:distance_to(x, y, vertice)
     
     while to_visit:size() > 0 do
         local node = to_visit:pop()
+        if self.draw_mode == 1 then
+            node.color = colors.orange
+        end
         if node == vertice then
             return paths:count(node)
         end
@@ -106,6 +113,7 @@ function Graph:min_spanning_tree()
                 end
             end
         end
+        m_edge.color = colors.dark_orange
         table.insert(mst, m_edge)
         table.insert(vertices, new_vert)
     end
@@ -116,14 +124,13 @@ end
 function Graph:grenade(x, y, dir)
     local left = self:coord(x, y)
     local right = left:find_neighbour(dir.x, dir.y)
-    local edgeKey = nil
     local edge = nil
     for k, v in pairs(self.edges) do
         if (v.left == left or v.left == right) and (v.right == left or v.right == right) then
-            edgeKey = k
             edge = v
         end
     end
+
     if edge == nil then
         return
     end
@@ -155,7 +162,9 @@ function Graph:pathfinding(x, y, exit)
     
     function path.walk(node)
         if node ~= nil then
-            node.color = colors.blue
+            if self.draw_mode == 2 then
+                node.color = colors.purple
+            end
             return path.walk(path[node])
         end
     end
@@ -164,6 +173,9 @@ function Graph:pathfinding(x, y, exit)
 
     while to_visit:size() > 0 do
         local node = to_visit:pop()
+        if self.draw_mode == 2 then
+            node.color = colors.pink
+        end
         table.insert(visited, node)
         local edges = self:vertice_edges(node)
         for k, v in pairs(edges) do
@@ -186,6 +198,9 @@ function Graph:pathfinding(x, y, exit)
                     to_visit:push(v.right)
                 end
             end
+        end
+        if node == exit then
+            break
         end
     end
     path.walk(exit)

@@ -68,7 +68,7 @@ function love.load()
 	player = {x = graph.start.x, y = graph.start.y}
 	distance = graph:distance_to(graph.start.x, graph.start.y, graph.exit)
 	dijkstra_distance = graph:pathfinding(player.x, player.y, graph.exit)
-	log = "Acties: Talisman, Handgranaat, Kompas"
+	log = "Acties: Tali(s)man, Hand(g)ranaat, Kompa(s)"
 
 end
 
@@ -98,7 +98,7 @@ function love.keypressed(key)
 end
 
 function generate_graph()
-	graph = Graph:new(15, 8)
+	graph = Graph:new(8, 8)
 end
 
 function console:flush()
