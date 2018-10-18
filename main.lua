@@ -20,6 +20,10 @@ local keys = require 'src.managers.keys'
 
 --classes
 Graph = require 'src.graph.graph'
+require 'src.graph.algorithms.bfs'
+require 'src.graph.algorithms.mst-prims'
+require 'src.graph.algorithms.dijkstra'
+
 Vertice = require 'src.graph.vertice'
 Edge = require 'src.graph.edge'
 
