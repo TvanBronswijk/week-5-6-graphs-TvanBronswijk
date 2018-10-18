@@ -15,6 +15,20 @@ function Edge:horizontal()
     return self.left.y == self.right.y
 end
 
+function Edge:has_node(node)
+    return (node == left or node == right)
+end
+
+function Edge:other(node)
+    if node == self.left then
+        return self.right
+    elseif node == self.right then
+        return self.left
+    else
+        return nil
+    end
+end
+
 function Edge:destroy()
     self.accessible = false
     self.left.neighbours[table.key(self.left.neighbours, self.right)] = nil

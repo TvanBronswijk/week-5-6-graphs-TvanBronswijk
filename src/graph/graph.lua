@@ -32,6 +32,8 @@ function Graph:initialize(width, height)
     local y = love.math.random(height)
     self.exit = self:coord(x, y)
     self.exit.id = 'E'
+
+    self.msp = self:min_spanning_tree()
 end
 
 function Graph:coord(x, y)
@@ -79,22 +81,36 @@ function Graph:distance_to(x, y, vertice)
 end
 
 function Graph:min_spanning_tree()
+    local mst = {}
     local root = self:coord(1, 1)
-    local visited = {}
-    local to_visit = Queue:new() 
-    to_visit:push(root)
+    local vertices = {}
+    table.insert(vertices, root)
 
-    while to_visit:size() > 0 do
-        local node = to_visit:pop()
-        table.insert(visited, node)
-        for _, value in pairs(node.neighbours) do
-            if not table.contains(visited, value) and not table.contains(to_visit.nodes, value) then
-                to_visit:push(value)
+    while table.count(vertices) ~= table.count(self.vertices) do
+        local edges = {}
+        for _, v in pairs(vertices) do
+            for _, e in pairs(self:vertice_edges(v)) do
+                table.insert(edges, e)
             end
         end
+
+        local m_edge = { weight = 100 }
+        local new_vert = nil
+        for _, v in pairs(edges) do
+            if v.weight < m_edge.weight and not (table.contains(vertices, v.left) and table.contains(vertices, v.right)) then
+                m_edge = v
+                if table.contains(vertices, v.left) then
+                    new_vert = v.right
+                else
+                    new_vert = v.left
+                end
+            end
+        end
+        table.insert(mst, m_edge)
+        table.insert(vertices, new_vert)
     end
 
-    return table.count(visited) == table.count(self.vertices)
+    return mst
 end
 
 function Graph:grenade(x, y, dir)
@@ -111,22 +127,18 @@ function Graph:grenade(x, y, dir)
     if edge == nil then
         return
     end
-    
-    local left = edge.left
-    local right = edge.right
-    edge:destroy()
 
-    if not self:min_spanning_tree() then
-        edge = left:connect(right, right.x - left.x, right.y - left.y)
-        edge.weight = 99999
-        self.edges[edgeKey] = edge
+    if not table.contains(self.msp, edge) then
+        edge:destroy()
+    else
+        edge.weight = 0
     end
 end
 
 function Graph:vertice_edges(vert)
     r = {}
     for k, v in pairs(self.edges) do
-        if v.left == vert or v.right == vert then
+        if (v.left == vert or v.right == vert) and v.accessible then
             table.insert(r, v)
         end
     end
