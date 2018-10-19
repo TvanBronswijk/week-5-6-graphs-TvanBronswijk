@@ -102,7 +102,7 @@ function love.keypressed(key)
 end
 
 function generate_graph()
-	graph = Graph:new(8, 8)
+	graph = Graph:new(16, 8)
 end
 
 function console:flush()
